@@ -27,9 +27,13 @@ class _$AppRouter extends RootStackRouter {
       );
     },
     NumberRoute.name: (routeData) {
+      final args = routeData.argsAs<NumberRouteArgs>();
       return CustomPage<dynamic>(
         routeData: routeData,
-        child: const NumberPage(),
+        child: NumberPage(
+          key: args.key,
+          number: args.number,
+        ),
         transitionsBuilder: TransitionsBuilders.fadeIn,
         opaque: true,
         barrierDismissible: false,
@@ -40,12 +44,18 @@ class _$AppRouter extends RootStackRouter {
   @override
   List<RouteConfig> get routes => [
         RouteConfig(
+          '/#redirect',
+          path: '/',
+          redirectTo: 'numbers',
+          fullMatch: true,
+        ),
+        RouteConfig(
           ListRoute.name,
           path: 'numbers',
         ),
         RouteConfig(
           NumberRoute.name,
-          path: 'numbers/:name',
+          path: 'number/:name',
         ),
       ];
 }
@@ -64,12 +74,34 @@ class ListRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [NumberPage]
-class NumberRoute extends PageRouteInfo<void> {
-  const NumberRoute()
-      : super(
+class NumberRoute extends PageRouteInfo<NumberRouteArgs> {
+  NumberRoute({
+    Key? key,
+    required NumberModel number,
+  }) : super(
           NumberRoute.name,
-          path: 'numbers/:name',
+          path: 'number/:name',
+          args: NumberRouteArgs(
+            key: key,
+            number: number,
+          ),
         );
 
   static const String name = 'NumberRoute';
+}
+
+class NumberRouteArgs {
+  const NumberRouteArgs({
+    this.key,
+    required this.number,
+  });
+
+  final Key? key;
+
+  final NumberModel number;
+
+  @override
+  String toString() {
+    return 'NumberRouteArgs{key: $key, number: $number}';
+  }
 }

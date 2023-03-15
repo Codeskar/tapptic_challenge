@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import '../model/number_model.dart';
 import '../pages/list_page.dart';
 import '../pages/number_page.dart';
 
@@ -14,10 +15,11 @@ part 'app_router.gr.dart';
     AutoRoute(
       page: ListPage,
       path: 'numbers',
+      initial: true,
     ),
     AutoRoute(
       page: NumberPage,
-      path: 'numbers/:name',
+      path: 'number/:name',
     )
   ],
 )

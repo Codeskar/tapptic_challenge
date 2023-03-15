@@ -1,7 +1,8 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tapptic_challenge/bloc/list_cubit.dart';
+import 'package:tapptic_challenge/routing/app_router.dart';
+import 'package:tapptic_challenge/widgets/error_widget.dart';
 
 import '../bloc/list_state.dart';
 import '../model/number_model.dart';
@@ -19,15 +20,15 @@ class ListPage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: BlocProvider<ListCubit>(
           create: (context) => ListCubit()..init(),
-          child: const _ContactListWidget(),
+          child: const _NumberListWidget(),
         ),
       ),
     );
   }
 }
 
-class _ContactListWidget extends StatelessWidget {
-  const _ContactListWidget({super.key});
+class _NumberListWidget extends StatelessWidget {
+  const _NumberListWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class _ContactListWidget extends StatelessWidget {
           );
         }
         if (state.error?.isNotEmpty == true) {
-          return _ErrorWidget(
+          return AppErrorWidget(
             error: state.error!,
           );
         }
@@ -47,7 +48,7 @@ class _ContactListWidget extends StatelessWidget {
           return ListView.builder(
               itemCount: state.numbers.length,
               itemBuilder: (BuildContext context, int index) {
-                return _ContactListItem(contact: state.numbers[index]);
+                return _NumberListItem(number: state.numbers[index]);
               });
         }
         return Container();
@@ -56,56 +57,23 @@ class _ContactListWidget extends StatelessWidget {
   }
 }
 
-class _ErrorWidget extends StatelessWidget {
-  final String error;
+class _NumberListItem extends StatelessWidget {
+  final NumberModel number;
 
-  const _ErrorWidget({super.key, required this.error});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const SizedBox(
-          height: 64,
-        ),
-        const Icon(
-          Icons.error_outlined,
-          size: 64,
-          color: Colors.red,
-        ),
-        const SizedBox(
-          height: 16,
-        ),
-        Center(
-            child: Text(
-          error,
-          style: const TextStyle(fontSize: 16),
-        )),
-      ],
-    );
-  }
-}
-
-class _ContactListItem extends StatelessWidget {
-  final NumberModel contact;
-
-  const _ContactListItem({
+  const _NumberListItem({
     super.key,
-    required this.contact,
+    required this.number,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Image.network(contact.image),
-      title: Text(contact.name),
+      leading: Image.network(number.image),
+      title: Text(number.name),
       onTap: () {
-        // context.pushRoute(
-        //   PdfRoute(
-        //     path: document.path,
-        //     title: document.fileName,
-        //   ),
-        // );
+        context.pushRoute(
+          NumberRoute(number: number),
+        );
       },
       tileColor: Colors.white,
     );

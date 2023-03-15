@@ -14,12 +14,12 @@ class ListCubit extends Cubit<ListState> {
   final List<NumberModel> _numberList = [];
 
   void init() {
-    _getContactList();
+    _getNumberList();
   }
 
-  void _getContactList() {
+  void _getNumberList() {
     _updateState(loading: true);
-    _fetchContactList(http.Client()).then(
+    _fetchNumberList(http.Client()).then(
       (value) {
         if (value.isEmpty) {
           _updateState(
@@ -40,14 +40,14 @@ class ListCubit extends Cubit<ListState> {
     );
   }
 
-  Future<List<NumberModel>> _fetchContactList(http.Client client) async {
+  Future<List<NumberModel>> _fetchNumberList(http.Client client) async {
     final response =
         await client.get(Uri.parse('http://dev.tapptic.com/test/json.php'));
 
-    return _parseContacts(response.body);
+    return _parseNumbers(response.body);
   }
 
-  List<NumberModel> _parseContacts(String responseBody) {
+  List<NumberModel> _parseNumbers(String responseBody) {
     final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
 
     return parsed

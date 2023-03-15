@@ -8,6 +8,7 @@ class NumberModel with _$NumberModel {
   const factory NumberModel({
     required String name,
     required String image,
+    String? text,
   }) = _NumberModel;
 
   factory NumberModel.fromJson(Map<String, dynamic> json) =>

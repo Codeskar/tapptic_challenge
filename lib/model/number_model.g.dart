@@ -10,10 +10,12 @@ _$_NumberModel _$$_NumberModelFromJson(Map<String, dynamic> json) =>
     _$_NumberModel(
       name: json['name'] as String,
       image: json['image'] as String,
+      text: json['text'] as String?,
     );
 
 Map<String, dynamic> _$$_NumberModelToJson(_$_NumberModel instance) =>
     <String, dynamic>{
       'name': instance.name,
       'image': instance.image,
+      'text': instance.text,
     };

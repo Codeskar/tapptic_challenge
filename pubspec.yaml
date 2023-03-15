@@ -21,13 +21,26 @@ dependencies:
     git:
       url: https://github.com/aissat/easy_localization
       ref: 5a55aa5738b9ab3d5a51b0fe6c242d67dbd9d8fc
-  flutter_bloc: ^8.1.1
+  flutter_bloc: ^8.1.2
+  loggy: ^2.0.3
+  hive: ^2.2.3
+  get_it: ^7.2.0
+  chopper: ^6.1.1
+  hive_flutter: ^1.1.0
+  freezed_annotation: ^2.2.0
+  json_annotation: ^4.8.0
+  freezed: ^2.3.2
+  equatable: ^2.0.5
+  http: ^0.13.5
+  auto_route_generator: ^5.0.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^1.0.0
+  build_runner: ^2.3.3
+  json_serializable: ^6.6.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

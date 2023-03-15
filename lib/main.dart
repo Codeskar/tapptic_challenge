@@ -1,6 +1,19 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:loggy/loggy.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:tapptic_challenge/pages/list_page.dart';
 
-void main() {
+void main() async {
+  setupLogger();
+
+  await Hive.initFlutter();
+  await Hive.openBox('myBox');
+
+  EasyLocalization.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const MyApp());
 }
 
@@ -14,54 +27,18 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Home Page'),
+      home: const ListPage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
-    );
-  }
+void setupLogger() {
+  Loggy.initLoggy(
+    logPrinter: const PrettyPrinter(),
+    logOptions: const LogOptions(
+      kDebugMode ? LogLevel.all : LogLevel.error,
+      stackTraceLevel: kDebugMode ? LogLevel.error : LogLevel.off,
+    ),
+    hierarchicalLogging: false,
+  );
 }

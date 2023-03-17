@@ -30,7 +30,7 @@ class _$AppRouter extends RootStackRouter {
       final args = routeData.argsAs<NumberRouteArgs>();
       return CustomPage<dynamic>(
         routeData: routeData,
-        child: NumberPage(
+        child: NumberDetails(
           key: args.key,
           number: args.number,
         ),
@@ -73,7 +73,7 @@ class ListRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [NumberPage]
+/// [NumberDetails]
 class NumberRoute extends PageRouteInfo<NumberRouteArgs> {
   NumberRoute({
     Key? key,

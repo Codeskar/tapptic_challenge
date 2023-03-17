@@ -6,21 +6,25 @@ class ListState extends Equatable {
     required this.loading,
     required this.error,
     required this.numbers,
+    required this.selectedNumber,
   });
 
   const ListState.initial()
       : loading = false,
         error = null,
-        numbers = const [];
+        numbers = const [],
+        selectedNumber = null;
 
   final bool loading;
-  final List<NumberModel> numbers;
   final String? error;
+  final List<NumberModel> numbers;
+  final NumberModel? selectedNumber;
 
   @override
   List<Object?> get props => [
         loading,
-        numbers,
         error,
+        numbers,
+        selectedNumber,
       ];
 }

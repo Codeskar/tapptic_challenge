@@ -1,30 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tapptic_challenge/bloc/list_cubit.dart';
-import 'package:tapptic_challenge/routing/app_router.dart';
 import 'package:tapptic_challenge/widgets/error_widget.dart';
 
 import '../bloc/list_state.dart';
 import '../model/number_model.dart';
+import '../widgets/number_details.dart';
 
 class ListPage extends StatelessWidget {
   const ListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('List Page'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: BlocProvider<ListCubit>(
-          create: (context) => ListCubit()..init(),
-          child: const _NumberListWidget(),
+    return BlocProvider<ListCubit>(
+      create: (context) => ListCubit()..init(),
+      child: Scaffold(
+        endDrawer: endDrawer(context),
+        appBar: AppBar(
+          title: const Text('List Page'),
+          actions: <Widget>[Container()],
+        ),
+        body: const Padding(
+          padding: EdgeInsets.all(16.0),
+          child: _NumberListWidget(),
         ),
       ),
     );
   }
+
+  Widget? endDrawer(BuildContext context) =>
+      BlocSelector<ListCubit, ListState, NumberModel?>(
+        selector: (state) => state.selectedNumber,
+        builder: (context, number) =>
+            number != null ? NumberDetails(number: number) : Container(),
+      );
 }
 
 class _NumberListWidget extends StatelessWidget {
@@ -67,15 +76,19 @@ class _NumberListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Image.network(number.image),
-      title: Text(number.name),
-      onTap: () {
-        context.pushRoute(
-          NumberRoute(number: number),
-        );
-      },
-      tileColor: Colors.white,
+    return BlocSelector<ListCubit, ListState, NumberModel?>(
+      selector: (state) => state.selectedNumber,
+      builder: (context, selectedNumber) => ListTile(
+        leading: Image.network(number.image),
+        title: Text(number.name),
+        selected: selectedNumber == number,
+        selectedTileColor: Colors.blueAccent.shade700,
+        onTap: () {
+          context.read<ListCubit>().selectNumber(number);
+          Scaffold.of(context).openEndDrawer();
+        },
+        tileColor: Colors.white,
+      ),
     );
   }
 }

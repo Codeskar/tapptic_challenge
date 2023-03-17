@@ -12,9 +12,16 @@ class ListCubit extends Cubit<ListState> {
   bool _loading = false;
   String? _error;
   final List<NumberModel> _numberList = [];
+  NumberModel? _selectedNumber;
 
   void init() {
     _getNumberList();
+  }
+
+  void selectNumber(NumberModel number) {
+    _updateState(
+      selectedNumber: number,
+    );
   }
 
   void _getNumberList() {
@@ -57,11 +64,13 @@ class ListCubit extends Cubit<ListState> {
 
   void _updateState({
     bool? loading,
-    List<NumberModel>? numberList,
     String? error,
+    List<NumberModel>? numberList,
+    NumberModel? selectedNumber,
   }) {
     _loading = loading ?? _loading;
     _error = error ?? _error;
+    _selectedNumber = selectedNumber ?? _selectedNumber;
 
     if (numberList != null) {
       _numberList
@@ -74,6 +83,7 @@ class ListCubit extends Cubit<ListState> {
         loading: _loading,
         error: _error,
         numbers: [..._numberList],
+        selectedNumber: _selectedNumber,
       ),
     );
   }
